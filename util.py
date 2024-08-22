@@ -2,6 +2,7 @@ import pickle
 import pandas as pd
 import requests
 from flask import jsonify
+import gzip
 
 __movie_names = None
 __similarity = None
@@ -76,7 +77,7 @@ def recommend_movies(movie):
 
 
 def load_movie_titles():
-    with open(r'popcorn_picker\movies_dict.pkl', 'rb') as f:
+    with open(r'movies_dict.pkl', 'rb') as f:
         movies_dict = pickle.load(f)
     titles = list(movies_dict['title'].values())
     return titles
@@ -90,10 +91,10 @@ def load_artifacts():
 
     __movie_names = load_movie_titles()
 
-    with open(r"popcorn_picker\similarity.pkl", 'rb') as f:
+    with gzip.open(r"similarity_new.pkl.gz", 'rb') as f:
         __similarity = pickle.load(f)
 
-    with open(r'popcorn_picker\movies_dict.pkl', 'rb') as f:
+    with open(r'movies_dict.pkl', 'rb') as f:
         __movies_dict = pickle.load(f)
 
     print("loaded saved artifacts")
